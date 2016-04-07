@@ -72,7 +72,7 @@ class MRArticleExtractor(MRJob):
         # from aws-publicdatasets
         # logging.error("FQDN: " + socket.getfqdn())
         fqdn = socket.getfqdn()
-        if fqdn.find('ec2') == -1:
+        if fqdn.find('ec2') != -1:
             logging.debug("Running on ec2 with fqdn of: " + fqdn)
             HADOOP_INPUT_FORMAT = 'org.apache.hadoop.mapred.lib.NLineInputFormat'
             INPUT_PROTOCOL = RawProtocol
@@ -95,8 +95,8 @@ class MRArticleExtractor(MRJob):
                               .format(line,  traceback.format_exception(*sys.exc_info())))
                 yield {'domain': 'error'}, ['']
 
-        # If we're local, use files on the local file system
-        # requires absolute path to files
+        If we're local, use files on the local file system
+        requires absolute path to files
         else:
             try:
                 logging.info('Loading local file {}'.format(line))
